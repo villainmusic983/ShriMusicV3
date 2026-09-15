@@ -13,7 +13,7 @@
     ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʜᴇʀᴏᴋᴜ 」─
 </h3>
 
-<p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/musichosting5911/ShriMusicV2"> <img src="https://www.herokucdn.com/deploy/button.svg"></a></p>
+<p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/villainmusic983/ShriMusicV3"> <img src="https://www.herokucdn.com/deploy/button.svg"></a></p>
 
 <!--
 **villainmusic777/villainmusic77 7** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
