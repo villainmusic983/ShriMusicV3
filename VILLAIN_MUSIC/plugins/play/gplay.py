@@ -343,7 +343,7 @@ async def gplay_command(client, message: Message):
         if audio_telegram and command_name == "gplay":
             if audio_telegram.file_size > 2147483648:
                 return await mystic.edit_text(
-                    "❖ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 1ɢʙ)."
+                    "❖ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 2ɢʙ)."
                 )
             if audio_telegram.duration > config.DURATION_LIMIT:
                 return await mystic.edit_text(
@@ -378,7 +378,9 @@ async def gplay_command(client, message: Message):
                         f"» sᴜᴘᴘᴏʀᴛᴇᴅ: {' | '.join(formats)}"
                     )
             if video_telegram.file_size > 2147483648:
-                return await mystic.edit_text("❖ ᴠɪᴅᴇᴏ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 1ɢʙ).")
+                return await mystic.edit_text(
+                    "❖ ᴠɪᴅᴇᴏ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 2ɢʙ)."
+                )
             file_path = await Telegram.get_filepath(video=video_telegram)
             if not await Telegram.download(_, message, mystic, file_path):
                 return
