@@ -10,6 +10,7 @@ from strings import get_string
 from VILLAIN_MUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VILLAIN_MUSIC.core.call import Aviax
 from VILLAIN_MUSIC.utils import time_to_seconds
+from VILLAIN_MUSIC.utils.formatters import formats
 from VILLAIN_MUSIC.utils.database import get_lang, group_assistant
 from VILLAIN_MUSIC.utils.gconnect_db import (
     get_gconnection,
@@ -265,6 +266,7 @@ async def gdisconnect_command(client, message: Message):
         return await message.reply_text("❖ ᴄᴏɴɴᴇᴄᴛɪᴏɴ ʀᴇᴍᴏᴠᴇᴅ ✅")
     return await message.reply_text("❖ ᴛʜɪs ᴄʜᴀᴛ ɪsɴ'ᴛ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ ᴀɴʏᴛʜɪɴɢ ʏᴇᴛ.")
 
+
 @app.on_message(
     filters.command(["gplay", "gvplay"], prefixes=["/", "!", ".", ""])
     & filters.group
@@ -339,16 +341,16 @@ async def gplay_command(client, message: Message):
 
     try:
         if audio_telegram and command_name == "gplay":
-            if audio_telegram.file_size > 1073741824:
+            if audio_telegram.file_size > 2147483648:
                 return await mystic.edit_text(
-                    "❖ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 1ɢʙ)."
+                    "❖ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 2ɢʙ)."
                 )
             if audio_telegram.duration > config.DURATION_LIMIT:
                 return await mystic.edit_text(
                     f"❖ ᴅᴜʀᴀᴛɪᴏɴ ʟɪᴍɪᴛ ɪs {config.DURATION_LIMIT_MIN} ᴍɪɴᴜᴛᴇs."
                 )
             file_path = await Telegram.get_filepath(audio=audio_telegram)
-            if not await Telegram.download(None, message, mystic, file_path):
+            if not await Telegram.download(_, message, mystic, file_path):
                 return
             message_link = await Telegram.get_link(message)
             file_name = await Telegram.get_filename(audio_telegram, audio=True)
@@ -362,10 +364,25 @@ async def gplay_command(client, message: Message):
             streamtype = "telegram"
 
         elif video_telegram and command_name == "gvplay":
-            if video_telegram.file_size > 1073741824:
-                return await mystic.edit_text("❖ ᴠɪᴅᴇᴏ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 1ɢʙ).")
+            if message.reply_to_message.document:
+                try:
+                    ext = video_telegram.file_name.split(".")[-1]
+                    if ext.lower() not in formats:
+                        return await mystic.edit_text(
+                            f"❖ ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ғɪʟᴇ ᴛʏᴘᴇ.\n\n"
+                            f"» sᴜᴘᴘᴏʀᴛᴇᴅ: {' | '.join(formats)}"
+                        )
+                except Exception:
+                    return await mystic.edit_text(
+                        f"❖ ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ғɪʟᴇ ᴛʏᴘᴇ.\n\n"
+                        f"» sᴜᴘᴘᴏʀᴛᴇᴅ: {' | '.join(formats)}"
+                    )
+            if video_telegram.file_size > 2147483648:
+                return await mystic.edit_text(
+                    "❖ ᴠɪᴅᴇᴏ ғɪʟᴇ ɪs ᴛᴏᴏ ʙɪɢ (ᴍᴀx 2ɢʙ)."
+                )
             file_path = await Telegram.get_filepath(video=video_telegram)
-            if not await Telegram.download(None, message, mystic, file_path):
+            if not await Telegram.download(_, message, mystic, file_path):
                 return
             message_link = await Telegram.get_link(message)
             file_name = await Telegram.get_filename(video_telegram)
